@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Storm Player - ESM Sample page</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div id="container"></div>
+    <script type="module">
+        import {StormPlayer} from "../dist/esm/index.js";
+
+        /**
+         * Standard library configuration object
+         */
+        const streamConfig = {
+            stream: {
+                serverList: [                                // list of streaming server, 2nd, 3rd etc. will be used as backup
+                    {
+                        host: "localhost",                   // host or ip to the streaming server
+                        application: "live",                 // application name (can be configured in storm server settings)
+                        port: 80,                            // server port
+                        ssl: false                           // whenever SSL connection should be used or not
+                    }
+                ],
+                streamKey: "test"                            // streamKey
+            },
+            settings: {
+                autoStart: true,                              // if true, video will start playing automatically, but will be muted too
+                debug: {
+                    console: {                                // console output
+                        enabled: true                         // if console output is activated
+                    }
+                }
+            }
+        };
+
+        /**
+         * Standard player configuration object
+         */
+        const playerConfig = {
+            containerID: "container",                        // HTML container where player will be added
+            aspectRatio: "16:9",                             // <video> element will scale to provided aspect-ratio. This parameter is optional and will overwrite "height" parameter as "width" will only be used for calculations
+            width: "100%",                                   // <video> element width, can be either "px" or "%" (string), as (number) will always be "px" value. For % it'll auto-scale to parent container,
+            title: "Title goes here",                        // title for the stream
+            subtitle: "This is going to be epic!",           // subtitle for the stream
+        };
+
+        /**
+         * Each player instance must be provided with both player (gui) and library configs
+         */
+        const storm = new StormPlayer(playerConfig, streamConfig);
+
+        /**
+         * Event fires whenever player interface becomes visible (e.g. user mouse activity).
+         */
+        storm.addEventListener("guiShow", function(event){
+            console.log("GUI is visible");
+        });
+
+        /**
+         * Event fires whenever player interface becomes invisible (user mouse inactivity).
+         */
+        storm.addEventListener("guiHide", function(event){
+            console.log("GUI is not visible");
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+.sp-loader {
+  width: 100%;
+  height: 100%;
+  background-color: $backgroundColor;
+  border-radius: $borderRadius;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 9;
+
+  svg {
+    display: inline;
+    width:auto;
+    height: auto;
+    fill: currentColor;
+    stroke: none;
+    vertical-align: middle;
+    
+    circle {
+      all: revert-layer;
+    }
+  }
+
+  .firstDot, .secondDot, .thirdDot {
+    fill:$loaderColor;
+  }
+
+  &--hidden {
+    display: block;
+  }
+}

@@ -1,0 +1,41 @@
+.sp-container__wrapper {
+  all: initial;
+  position: relative;
+  display: block;
+  font-family: $fontRegular;
+
+  * {
+    all: unset
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  &.fs-mode {
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    z-index: 1000;
+
+    .sp-container {
+        .sp-video {
+            border-radius: 0 !important;
+        }
+    }
+  }
+}
+
+.sp-hidden {
+  display: none !important;
+}
+
+.fs-body-fix {
+  overflow:hidden;
+  padding:0 !important;
+}

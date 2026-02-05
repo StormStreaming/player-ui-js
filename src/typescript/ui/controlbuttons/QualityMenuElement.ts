@@ -1,0 +1,138 @@
+import { GraphicElement } from "../GraphicElement";
+import { StormPlayerUI } from "../../StormPlayerUI";
+import {ISourceItem, QualityItem} from "@stormstreaming/player-core";
+import {QualityMenuItem} from "@app/typescript/ui/controlbuttons/QualityMenuItem";
+
+/**
+ * Class represents quality menu (the list) for quality switch button
+ */
+export class QualityMenuElement extends GraphicElement {
+
+    /**
+     * Main element
+     * @private
+     */
+    private spMenuBoxElement: GraphicElement;
+
+    /**
+     * Constructor
+     * @param stormPlayer reference to the main player class
+     */
+    constructor(stormPlayer: StormPlayerUI) {
+        super(stormPlayer, "sp-menu sp-menu__quality sp-menu--hidden");
+    }
+
+    /**
+     * Sets select item as current
+     */
+    public setCurrentItem(): void {
+
+
+    }
+
+    /**
+     * Updates the list
+     */
+    public refreshList(): void {
+
+        if (!this.spMenuBoxElement)
+           return;
+
+        this.spMenuBoxElement.getHtmlElement().querySelector("ul").innerHTML = "";
+
+        const list:QualityItem[] = this.stormPlayer.getPlayerCore().getQualityItemList();
+
+        const labelToNumber = (label: string): number => {
+            return parseInt(label.replace('p', ''), 10);
+        };
+
+        list.sort((a, b) => {
+
+            const labelA = a.label;
+            const labelB = b.label;
+
+            const numberA = labelA ? labelToNumber(labelA) : 0;
+            const numberB = labelB ? labelToNumber(labelB) : 0;
+
+            return numberB - numberA;
+        });
+
+        for (let i = 0; i < list.length; i++) {
+            if(list[i].label != undefined) {
+                const element = new QualityMenuItem(this.stormPlayer, list[i]);
+                this.spMenuBoxElement.getHtmlElement().querySelector("ul").appendChild(element.getHTMLElement());
+            }
+        }
+
+        this.setCurrentItem();
+    }
+
+    /**
+     * Draw graphics for the element
+     * @protected
+     */
+    protected override draw(): void {
+        super.draw();
+
+        this.spMenuBoxElement = new GraphicElement(this.stormPlayer, "sp-menu__box");
+        this.htmlElement.appendChild(this.spMenuBoxElement.getHtmlElement());
+        this.spMenuBoxElement.getHtmlElement().innerHTML = `<ul class="sp-menu__list"></ul>`;
+    }
+
+    /**
+     * Attaches listeners to the button
+     * @protected
+     */
+    protected override attachListeners(): void {
+
+        this.stormPlayer.addEventListener("streamConfigUpdate", () => {
+            this.refreshList();
+        });
+
+        this.stormPlayer.addEventListener("coreInitialize", () => {
+
+            if(this.stormPlayer.getPlayerCore().isInitialized())
+                this.refreshList();
+
+            this.stormPlayer.getPlayerCore().addEventListener("playerReady", () => {
+                this.refreshList();
+            });
+
+            this.stormPlayer.getPlayerCore().addEventListener("streamSourceAdd", () => {
+                this.refreshList();
+            });
+
+            this.stormPlayer.getPlayerCore().addEventListener("playbackInitiate", () => {
+                this.refreshList();
+            });
+
+            this.stormPlayer.getPlayerCore().addEventListener("playbackStart", () => {
+                this.refreshList();
+            });
+
+        });
+
+        this.stormPlayer.addEventListener("qualitySwitchClick", () => {
+            this.getHtmlElement().classList.toggle("sp-menu--hidden");
+        });
+
+        this.stormPlayer.addEventListener("qualityChange", () => {
+            setTimeout(() => {
+                this.refreshList();
+            },100)
+        });
+
+        this.stormPlayer.addEventListener("sourceListUpdate", () => {
+            this.refreshList();
+        })
+
+        this.stormPlayer.addEventListener("guiHide", () => {
+            this.getHtmlElement().classList.add("sp-menu--hidden");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!(event.target as HTMLElement).classList.contains("sp-controls__button"))
+                this.getHtmlElement().classList.add("sp-menu--hidden");
+        });
+    }
+}

@@ -1,0 +1,55 @@
+.sp-cue-points {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  // pointer-events: none;
+  display: flex;
+
+  &__item {
+    position: absolute;
+    top: -30px;
+    margin-left: -16px;
+    cursor: pointer;
+
+    svg {
+      use:nth-child(1) {
+        fill: rgb(0, 0, 0);
+      }
+
+      g g g {
+        transform: translate(-718px, -924px) matrix(1, 0, 0, -1, 0, 1834);
+      }
+
+      path {
+        d: path("M 735.753 913.86 l 4.796 5.481 c 0.363 0.416 0.321 1.048 -0.094 1.412 c -0.183 0.16 -0.417 0.247 -0.659 0.247 h -9.592 c -0.553 0 -1 -0.448 -1 -1 c 0 -0.242 0.088 -0.476 0.247 -0.659 l 4.796 -5.48 c 0.364 -0.417 0.996 -0.459 1.412 -0.095 c 0.033 0.03 0.064 0.06 0.094 0.094 Z");
+      }
+
+      stop:nth-child(1) {
+        stop-color: $cuePointColor1;
+      }
+
+      stop:nth-child(2) {
+        stop-color: $cuePointColor2;
+      }
+    }
+
+    &:before {
+      content: attr(data-title);
+      font-size: 11px;
+      position: absolute;
+      display: none;
+      left: 50%;
+      top: -20px;
+      transform: translateX(-50%);
+      background-color: $black-60;
+      color: $white;
+      padding: 4px 6px;
+      word-break: keep-all;
+      white-space: pre;
+    }
+
+    &:hover:before {
+      display: inline-block;
+    }
+  }
+}
