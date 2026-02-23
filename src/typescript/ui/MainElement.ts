@@ -272,6 +272,7 @@ export class MainElement extends GraphicElement {
 
 
 
+
     }
 
     public setObserver():void{
@@ -469,6 +470,9 @@ export class MainElement extends GraphicElement {
     public createWaitingRoom() {
         this.waitingRoom = new WaitingRoom(this.stormPlayer);
         this.spContainer.getHtmlElement().appendChild(this.waitingRoom.getHtmlElement());
+
+        this.loaderElement.hide();
+        this.spContainer.show();
     }
 
     /**

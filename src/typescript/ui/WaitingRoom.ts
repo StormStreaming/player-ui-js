@@ -37,6 +37,8 @@ export class WaitingRoom extends GraphicElement {
 
         this.setTime();
 
+
+
     }
 
     public setTime(): void {
@@ -76,6 +78,7 @@ export class WaitingRoom extends GraphicElement {
             that.getHtmlElement().querySelector<HTMLElement>('#secondCounter .progress-ring__circle').style.strokeDashoffset = String(nowToStart < 60000 && nowToStart > 1000 ? 376.98 - (nowToStart * (376.98 / 60000)) : nowToStart < 60000 ? 376.98 : 0);
 
         }, 1000)
+
     }
 
     /**
