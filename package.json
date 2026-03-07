@@ -1,6 +1,6 @@
 {
   "name": "@stormstreaming/player-ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Full-featured video player for Storm Streaming Server & Cloud. Low-latency live streaming with customizable UI controls.",
   "private": false,
   "author": "Web-Anatomy s.c. <contact@web-anatomy.com>",
@@ -39,7 +39,7 @@
     "deploy:sftp": "npm-run-all deploy:upload-sftp"
   },
   "dependencies": {
-    "@stormstreaming/player-core": "1.1.2",
+    "@stormstreaming/player-core": "1.1.5",
     "@types/lodash.debounce": "^4.0.8",
     "lodash.debounce": "^4.0.8",
     "luxon": "^3.4.0",
